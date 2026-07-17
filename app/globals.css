@@ -22,7 +22,7 @@ body {
   margin: 0;
   background: var(--ink);
   color: var(--cream);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 button {
