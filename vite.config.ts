@@ -40,11 +40,14 @@ export default defineConfig(async () => {
   process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
   process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
 
-  const isNetlifyBuild =
-    process.env.NETLIFY === "true" || process.env.NITRO_PRESET === "netlify";
+  const isNitroBuild =
+    process.env.NETLIFY === "true" ||
+    process.env.VERCEL === "1" ||
+    process.env.NITRO_PRESET === "netlify" ||
+    process.env.NITRO_PRESET === "vercel";
   const plugins = [vinext(), sites()];
 
-  if (isNetlifyBuild) {
+  if (isNitroBuild) {
     const { nitro } = await import("nitro/vite");
     plugins.push(nitro());
   } else {
