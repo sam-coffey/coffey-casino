@@ -42,12 +42,21 @@ const SYMBOLS: SlotSymbol[] = [
 ];
 
 const TRIPLE_MULTIPLIERS: Record<SymbolId, number> = {
-  turtle: 8,
-  golf: 8,
-  hotdog: 8,
-  pizza: 16,
-  candy: 16,
-  soccer: 40,
+  turtle: 5,
+  golf: 5,
+  hotdog: 5,
+  pizza: 10,
+  candy: 10,
+  soccer: 25,
+};
+
+const PAIR_MULTIPLIERS: Record<SymbolId, number> = {
+  turtle: 1,
+  golf: 1,
+  hotdog: 1,
+  pizza: 2,
+  candy: 2,
+  soccer: 3,
 };
 
 function symbolById(id: SymbolId) {
@@ -69,7 +78,8 @@ function calculateSpinResult(reels: SymbolId[], bet: number): SpinResult {
 
   const [symbolId, count] = matchingEntry;
   if (count === 2) {
-    return { kind: "pair", payout: bet, multiplier: 1, symbol: symbolById(symbolId) };
+    const multiplier = PAIR_MULTIPLIERS[symbolId];
+    return { kind: "pair", payout: bet * multiplier, multiplier, symbol: symbolById(symbolId) };
   }
 
   const multiplier = TRIPLE_MULTIPLIERS[symbolId];
@@ -229,7 +239,7 @@ export default function Home() {
   }
 
   const resultCopy = spinResult?.kind === "pair"
-    ? `Pair — +${spinResult.payout} credit${spinResult.payout === 1 ? "" : "s"}`
+    ? `${spinResult.symbol?.label} pair — +${spinResult.payout} credit${spinResult.payout === 1 ? "" : "s"}`
     : spinResult?.kind === "none"
       ? "No match — spin again"
       : null;
@@ -324,7 +334,8 @@ export default function Home() {
           )}
 
           {resultCopy && <p className="spin-result" role="status" aria-live="polite">{resultCopy}</p>}
-          <p className="payout-line">Pair 1× · Pizza/Candy 16× · Soccer 40×</p>
+          <p className="payout-line">Pairs 1× · Pizza/Candy 2× · Soccer 3×</p>
+          <p className="payout-line">Triples 5× · Pizza/Candy 10× · Soccer 25×</p>
           <p className="payout-line">{INITIAL_CREDITS} credits to start</p>
         </div>
 

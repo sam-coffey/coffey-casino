@@ -43,6 +43,8 @@ test("server-renders the Coffey Casino experience", async () => {
   assert.match(source, /id: "candy", emoji: "🍬"/);
   assert.match(source, /INITIAL_CREDITS = 30/);
   assert.match(source, /const BETS = \[1, 3, 5, 10\]/);
+  assert.match(source, /const PAIR_MULTIPLIERS/);
+  assert.match(source, /soccer: 25/);
   assert.doesNotMatch(source, /MAX_CREDITS/);
   assert.match(source, /Math\.random/);
   assert.match(source, /from\("high_scores"\)/);
