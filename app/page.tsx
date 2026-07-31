@@ -213,7 +213,7 @@ export default function Home() {
     }
   }
 
-  function resetGame() {
+  function startOver() {
     if (spinInterval.current) window.clearInterval(spinInterval.current);
     if (spinTimeout.current) window.clearTimeout(spinTimeout.current);
     setReels(DEFAULT_REELS);
@@ -312,10 +312,17 @@ export default function Home() {
             <span className="bet-label">credits</span>
           </div>
 
-          <button className="spin-button" type="button" onClick={handleSpin} disabled={!canSpin}>
-            <span>{isSpinning ? "Spinning..." : isGameOver ? "Out of credits" : isCashedOut ? "Cashed out" : `Spin · ${bet}`}</span>
-            <small>{isGameOver ? "Cash out your score" : "Every spin is random"}</small>
-          </button>
+          {isGameOver || isCashedOut ? (
+            <button className="spin-button" type="button" onClick={startOver}>
+              <span>Start over</span>
+              <small>Begin with {INITIAL_CREDITS} credits</small>
+            </button>
+          ) : (
+            <button className="spin-button" type="button" onClick={handleSpin} disabled={!canSpin}>
+              <span>{isSpinning ? "Spinning..." : `Spin · ${bet}`}</span>
+              <small>Every spin is random</small>
+            </button>
+          )}
 
           {resultCopy && <p className="spin-result" role="status" aria-live="polite">{resultCopy}</p>}
           <p className="payout-line">Pair 1× · Pizza/Candy 16× · Soccer 40×</p>
@@ -359,7 +366,6 @@ export default function Home() {
       <footer className="page-footer">
         <span>Coffey Casino</span>
         <span aria-hidden="true">✦</span>
-        <button type="button" onClick={resetGame}>Always a jackpot</button>
       </footer>
 
       {spinResult?.kind === "triple" && spinResult.symbol && (

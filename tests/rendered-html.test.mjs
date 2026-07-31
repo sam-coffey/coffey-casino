@@ -36,7 +36,7 @@ test("server-renders the Coffey Casino experience", async () => {
   assert.match(html, /Cash out/);
   assert.match(html, /30 credits/);
   assert.doesNotMatch(html, /reel-label/);
-  assert.doesNotMatch(html, /jackpot ladder|jackpot-row|WON|ranch/i);
+  assert.doesNotMatch(html, /jackpot ladder|jackpot-row|WON|Always a jackpot|ranch/i);
   assert.doesNotMatch(html, /Rachel|Sam|love|ranch|Your site is taking shape|codex-preview|react-loading-skeleton/i);
 
   const source = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
@@ -46,5 +46,7 @@ test("server-renders the Coffey Casino experience", async () => {
   assert.match(source, /MAX_CREDITS = 500/);
   assert.match(source, /Math\.random/);
   assert.match(source, /from\("high_scores"\)/);
+  assert.match(source, /Start over/);
+  assert.doesNotMatch(source, /Always a jackpot/);
   assert.doesNotMatch(source, /ranch|Ranch dressing/i);
 });
