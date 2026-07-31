@@ -8,7 +8,7 @@ The game works without Supabase, but the leaderboard stays offline until the dat
 
    ```text
    NEXT_PUBLIC_SUPABASE_URL=your-project-url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
    ```
 
 4. Redeploy the Vercel project. The leaderboard will load the top 10 scores and guests can submit a score when they cash out.
