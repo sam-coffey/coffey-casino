@@ -31,15 +31,19 @@ test("server-renders the Coffey Casino experience", async () => {
   const html = await response.text();
   assert.match(html, /<title>Coffey Casino<\/title>/i);
   assert.match(html, /Coffey Casino/);
-  assert.match(html, /Spin the.*Lucky.*Reels/);
-  assert.match(html, /Spin the reels/);
+  assert.match(html, /Spin for the.*high score/);
+  assert.match(html, /Top scores/);
+  assert.match(html, /Cash out/);
+  assert.match(html, /30 credits/);
   assert.doesNotMatch(html, /reel-label/);
-  assert.doesNotMatch(html, /jackpot ladder|jackpot-row|WON/i);
+  assert.doesNotMatch(html, /jackpot ladder|jackpot-row|WON|ranch/i);
   assert.doesNotMatch(html, /Rachel|Sam|love|ranch|Your site is taking shape|codex-preview|react-loading-skeleton/i);
 
   const source = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
   assert.match(source, /id: "candy", emoji: "🍬"/);
-  assert.match(source, /Mini Jackpot/);
-  assert.match(source, /Mega Jackpot/);
+  assert.match(source, /INITIAL_CREDITS = 30/);
+  assert.match(source, /const BETS = \[1, 3, 5\]/);
+  assert.match(source, /Math\.random/);
+  assert.match(source, /from\("high_scores"\)/);
   assert.doesNotMatch(source, /ranch|Ranch dressing/i);
 });
