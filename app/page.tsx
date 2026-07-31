@@ -28,7 +28,8 @@ export type HighScore = {
 };
 
 const INITIAL_CREDITS = 30;
-const BETS = [1, 3, 5] as const;
+const MAX_CREDITS = 500;
+const BETS = [1, 3, 5, 10] as const;
 const MAX_NAME_LENGTH = 20;
 const DEFAULT_REELS: SymbolId[] = ["turtle", "pizza", "soccer"];
 
@@ -157,7 +158,7 @@ export default function Home() {
       const nextReels = randomReels();
       const result = calculateSpinResult(nextReels, bet);
       setReels(nextReels);
-      setCredits((currentCredits) => currentCredits - bet + result.payout);
+      setCredits((currentCredits) => Math.min(MAX_CREDITS, currentCredits - bet + result.payout));
       setSpinCount((currentSpinCount) => currentSpinCount + 1);
       setSpinResult(result);
       setIsSpinning(false);
@@ -318,6 +319,7 @@ export default function Home() {
 
           {resultCopy && <p className="spin-result" role="status" aria-live="polite">{resultCopy}</p>}
           <p className="payout-line">Pair 1× · Pizza/Candy 16× · Soccer 40×</p>
+          <p className="payout-line">{INITIAL_CREDITS} to start · {MAX_CREDITS} credit max</p>
         </div>
 
         <button className="cashout-button" type="button" onClick={openCashout} disabled={isSpinning || isCashedOut || credits <= 0}>
